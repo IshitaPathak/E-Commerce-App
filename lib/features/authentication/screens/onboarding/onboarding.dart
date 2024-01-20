@@ -1,5 +1,6 @@
+import 'package:e_commerce_app/features/authentication/controllers_onboarding/onboarding_controller.dart';
 import 'package:e_commerce_app/features/authentication/screens/onboarding/widgets/onboarding_dot_navigation.dart';
-import 'package:e_commerce_app/features/authentication/screens/onboarding/widgets/onboarding_page.dart';
+import 'package:e_commerce_app/features/authentication/screens/onboarding/widgets/onboarding_skip.dart';
 import 'package:e_commerce_app/utils/constants/colors.dart';
 import 'package:e_commerce_app/utils/constants/image_strings.dart';
 import 'package:e_commerce_app/utils/constants/sizes.dart';
@@ -7,6 +8,7 @@ import 'package:e_commerce_app/utils/constants/text_strings.dart';
 import 'package:e_commerce_app/utils/device/device_utility.dart';
 import 'package:e_commerce_app/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -15,11 +17,15 @@ class OnBoradingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OnBoardingController());
+
     return Scaffold(
       body: Stack(
         children: [
           //horizontal scrollable pages
           PageView(
+            controller: controller.pageController,
+            onPageChanged: controller.updatePageIndicator,
             children: const [
               OnBoardingPage(
                   image: TImages.onBoardingImage1,
@@ -62,7 +68,9 @@ class OnBoardingNextButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),
                 backgroundColor: dark ? TColors.primary : Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              OnBoardingController.instance.nextPage();
+            },
             child: Icon(Iconsax.arrow_right_3)));
   }
 }
